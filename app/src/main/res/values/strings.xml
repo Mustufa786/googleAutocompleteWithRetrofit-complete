@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">RetrofitAndPlaceAutocompleteAPI</string>
+    <string name="find_your_location">Find Your Location!</string>
+    <string name="please_wait">Please Wait..</string>
+    <string name="search_your_place">Search your place..</string>
+</resources>
