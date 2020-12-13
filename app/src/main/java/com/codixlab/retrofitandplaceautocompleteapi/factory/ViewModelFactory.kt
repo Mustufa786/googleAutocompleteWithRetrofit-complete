@@ -2,7 +2,6 @@ package com.codixlab.retrofitandplaceautocompleteapi.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.codixlab.retrofitandplaceautocompleteapi.viewmodel.SearchPlacesViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
@@ -10,7 +9,6 @@ class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(SearchPlacesViewModel::class.java) -> SearchPlacesViewModel()
                 else -> throw IllegalArgumentException("Unknown viewModel class $modelClass")
             }
         } as T

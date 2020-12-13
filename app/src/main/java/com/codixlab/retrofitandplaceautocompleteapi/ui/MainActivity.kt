@@ -5,13 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.codixlab.retrofitandplaceautocompleteapi.R
 import com.codixlab.retrofitandplaceautocompleteapi.databinding.ActivityMainBinding
 import com.codixlab.retrofitandplaceautocompleteapi.extension.obtainViewModel
 import com.codixlab.retrofitandplaceautocompleteapi.listener.GenericListeners
-import com.codixlab.retrofitandplaceautocompleteapi.utils.ResponseStatus
-import com.codixlab.retrofitandplaceautocompleteapi.viewmodel.SearchPlacesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
@@ -24,39 +21,16 @@ import org.apache.commons.lang3.math.NumberUtils
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mGoogleMap: GoogleMap
     lateinit var binding: ActivityMainBinding
-    lateinit var viewModel: SearchPlacesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        viewModel = obtainViewModel(SearchPlacesViewModel::class.java)
 
         mapView.onCreate(savedInstanceState)
         MapsInitializer.initialize(this)
         mapView.getMapAsync(this)
 
-
-        viewModel.placeDetailsResponse.observe(this, Observer {
-            it?.let {
-                when (it.status) {
-                    ResponseStatus.ERROR -> {
-
-                    }
-                    ResponseStatus.LOADING -> {
-
-                    }
-                    ResponseStatus.SUCCESS -> {
-                        if (it.data != null) {
-                            val location = it.data.result?.geometry?.location
-                            animateCamera(location?.lat, location?.lng, it.data.result?.name!!)
-                        }
-
-
-                    }
-                }
-            }
-        })
 
         binding.listener = object : GenericListeners {
             override fun onTapGoToPlacesScreen() {
@@ -65,8 +39,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         }
-
-
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -105,12 +77,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == NumberUtils.INTEGER_ONE) {
-                if (data != null && data.extras != null && data.extras!!.containsKey("placeId")) {
-                    val placeId = data.getStringExtra("placeId")
-                    viewModel.getPlaceDetails(placeId!!)
-                }
-            }
         }
     }
 

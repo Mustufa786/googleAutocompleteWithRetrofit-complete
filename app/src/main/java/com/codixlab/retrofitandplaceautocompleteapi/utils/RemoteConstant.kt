@@ -6,5 +6,4 @@ package com.codixlab.retrofitandplaceautocompleteapi.utils
  */
 object RemoteConstant {
     const val REMOTE_URL = "https://maps.googleapis.com/"
-
 }
